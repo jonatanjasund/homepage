@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+
+<Base hideNav>
+  <section class="soon">
+    <p class="eyebrow"><span class="dot" aria-hidden="true"></span>Under construction</p>
+    <h1>Something is coming.</h1>
+    <p class="lede">
+      This is the future home of {site.name}'s projects, small tools and the occasional game. It isn't
+      quite ready yet, so check back soon.
+    </p>
+    <p class="meanwhile">
+      In the meantime, you can find me on <a href={site.github}>GitHub</a>.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .soon {
+    padding: 4rem 0 2rem;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 1rem;
+  }
+
+  .dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    50% {
+      opacity: 0.3;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dot {
+      animation: none;
+    }
+  }
+
+  .meanwhile {
+    margin: 0;
+  }
+</style>

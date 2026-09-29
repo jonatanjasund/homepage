@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import Card from '../../components/Card.astro';
+import CardList from '../../components/CardList.astro';
+import { getProjects } from '../../data/projects';
+
+const projects = await getProjects();
+---
+
+<Base title="Projects" description="Things I've built.">
+  <h1>Projects</h1>
+  <p class="lede">Things I've built, from weekend hacks to longer-running work.</p>
+  <CardList count={projects.length}>
+    {
+      projects.map((p) => (
+        <Card
+          href={`/projects/${p.id}/`}
+          title={p.data.title}
+          description={p.data.description}
+          tags={p.data.tags}
+          meta={String(p.data.date.getFullYear())}
+        />
+      ))
+    }
+  </CardList>
+</Base>

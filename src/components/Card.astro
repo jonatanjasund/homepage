@@ -1,0 +1,79 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  tags?: string[];
+  meta?: string;
+}
+
+const { href, title, description, tags = [], meta } = Astro.props;
+---
+
+<a class="card" href={href}>
+  <div class="head">
+    <h3>{title}</h3>
+    {meta && <span class="meta">{meta}</span>}
+  </div>
+  <p>{description}</p>
+  {
+    tags.length > 0 && (
+      <div class="tags">
+        {tags.map((tag) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    )
+  }
+</a>
+
+<style>
+  .card {
+    display: block;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    text-decoration: none;
+    transition:
+      border-color 0.15s,
+      transform 0.15s;
+  }
+
+  .card:hover {
+    color: inherit;
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .meta {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  p {
+    margin: 0.35rem 0 0;
+    color: var(--muted);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+  }
+</style>

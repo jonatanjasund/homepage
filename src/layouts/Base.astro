@@ -1,0 +1,119 @@
+---
+import '../styles/global.css';
+import { nav, site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  hideNav?: boolean;
+}
+
+const { title, description = site.description, hideNav = false } = Astro.props;
+const pageTitle = title ? `${title} · ${site.title}` : site.title;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const current = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container bar">
+        <a href="/" class="logo">jasund<span>.dev</span></a>
+        {
+          !hideNav && (
+            <nav aria-label="Main">
+              {nav.map((item) => (
+                <a href={item.href} aria-current={current.startsWith(item.href) ? 'page' : undefined}>
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+          )
+        }
+      </div>
+    </header>
+
+    <main class="container">
+      <slot />
+    </main>
+
+    <footer class="container site-footer">
+      <span>© {new Date().getFullYear()} {site.name}</span>
+      <a href={site.github}>GitHub</a>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 4rem;
+  }
+
+  .logo {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .logo span {
+    color: var(--accent);
+  }
+
+  nav {
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--muted);
+  }
+
+  nav a:hover,
+  nav a[aria-current='page'] {
+    color: var(--text);
+  }
+
+  nav a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+  }
+
+  main {
+    min-height: 60vh;
+  }
+
+  .site-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+</style>
